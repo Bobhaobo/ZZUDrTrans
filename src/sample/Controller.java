@@ -3,10 +3,13 @@ package sample;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import util.DisplayArea;
+import util.GetPatientInfo;
 
 import javax.swing.*;
 import java.io.File;
@@ -23,16 +26,25 @@ public class Controller {
     private Button cancelSendBut;
     @FXML//文件路径显示框
     private TextField fileDisplayText;
+    @FXML//文本显示区域
+    private TextArea fileDisplayArea;
     //选择按钮事件
     public void selectFile(){
-//        FileChooser fileChooser = new FileChooser();
-        DirectoryChooser directoryChooser=new DirectoryChooser();
-        Stage mainStage = null;
-        directoryChooser.setTitle("选择文件");
-        File file = directoryChooser.showDialog(mainStage);
+        //新建一个文件选择器
+        JFileChooser fd = new JFileChooser();
+        fd.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        //打开界面
+        fd.showOpenDialog(null);
+        //获取文件路径
+        File f = fd.getSelectedFile();
+        if(f != null){
+            fileDisplayText.setText(f.getPath());
+            fileDisplayArea.setWrapText(true);
+            DisplayArea.displayAreaInfo(fileDisplayArea,f);
+        }else {
 
-//        fileChooser.setTitle("选择文件");
-//        fileChooser.showOpenDialog(stage);
+        }
+
 
     }
     //发送按钮事件
